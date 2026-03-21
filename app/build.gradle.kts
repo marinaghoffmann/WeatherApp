@@ -63,4 +63,5 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation(libs.gson)
+    implementation("com.github.bumptech.glide:glide:4.15.1")
 }

@@ -24,6 +24,8 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bumptech.glide.Glide;
+
 public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.ViewHolder> {
 
     private final Context context;
@@ -100,8 +102,14 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
             pressure.setText(pressure_value);
             String humidity_value = "Umidade: " + weather.getMain().getHumidity() + "%";
             humidity.setText(humidity_value);
-            Drawable resDrawIcon = Utils.getDrawable(weather.getWeather().get(0).getIcon(), context);
-            imageView.setImageDrawable(resDrawIcon);
+            String iconCode = weather.getWeather().get(0).getIcon();
+
+            String iconUrl = "https://openweathermap.org/img/wn/"
+                    + iconCode + "@2x.png";
+
+            Glide.with(context)
+                    .load(iconUrl)
+                    .into(imageView);
         }
     }
 
