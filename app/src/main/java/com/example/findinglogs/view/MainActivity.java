@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         fetchButton.setOnClickListener(v -> {
             mainViewModel.fetchWeather();
+
+            Toast.makeText(MainActivity.this,
+                "Atualizando dados...",
+                Toast.LENGTH_SHORT).show();
         });
 
     }
