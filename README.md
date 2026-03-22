@@ -4,7 +4,7 @@ A weather application that retrieves and displays weather information using the 
 
 Cities are fetched using predefined latitude and longitude coordinates and displayed in alphabetical order with detailed weather data.
 
-<img src="weather_app.gif" alt="Weather app" height="500">
+[![Weather App Demo](https://img.youtube.com/vi/PzGl3if-Gl4/0.jpg)](https://youtube.com/shorts/PzGl3if-Gl4)
 
 ---
 
