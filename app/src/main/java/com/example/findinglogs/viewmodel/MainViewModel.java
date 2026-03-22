@@ -71,7 +71,12 @@ public class MainViewModel extends AndroidViewModel {
                     responseCount[0]++;
     
                     if (responseCount[0] == localizations.size()) {
-                        _weatherList.setValue(new ArrayList<>(uniqueWeathers.values()));
+                        List<Weather> sortedList = new ArrayList<>(uniqueWeathers.values());
+                        sortedList.sort((w1, w2) ->
+                                w1.getName().compareToIgnoreCase(w2.getName())
+                        );
+
+                        _weatherList.setValue(sortedList);
                         handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
                     }
                 }
