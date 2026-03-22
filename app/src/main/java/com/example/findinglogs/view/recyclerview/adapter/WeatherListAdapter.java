@@ -28,12 +28,18 @@ import com.bumptech.glide.Glide;
 
 public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.ViewHolder> {
 
+    public interface OnWeatherClickListener {
+        void onWeatherClick(Weather weather);
+    }
+
     private final Context context;
     private final List<Weather> weathers;
+    private final OnWeatherClickListener listener;
 
-    public WeatherListAdapter(Context context, List<Weather> weathers) {
+    public WeatherListAdapter(Context context, List<Weather> weathers, OnWeatherClickListener listener) {
         this.context = context;
         this.weathers = new ArrayList<>(weathers);
+        this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -124,6 +130,9 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Weather weather = weathers.get(position);
         holder.holdWeather(weather, context);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onWeatherClick(weather);
+        });
     }
 
     @Override

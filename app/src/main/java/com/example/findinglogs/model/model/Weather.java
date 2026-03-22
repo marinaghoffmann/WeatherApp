@@ -10,6 +10,7 @@ public class Weather {
     private WeatherInfo main;
     private String name;
     private List<WeatherDetail> weather = new ArrayList<>();
+    private Wind wind;
 
     public Weather() {
     }
@@ -38,6 +39,14 @@ public class Weather {
         this.weather = weather;
     }
 
+    public Wind getWind() {
+        return wind;
+    }
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -45,6 +54,7 @@ public class Weather {
                 "main=" + main +
                 ", name='" + name + '\'' +
                 ", weather=" + weather +
+                ", wind=" + wind +
                 '}';
     }
 }
