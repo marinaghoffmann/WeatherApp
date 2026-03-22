@@ -46,24 +46,34 @@ public class MainViewModel extends AndroidViewModel {
 
     private void fetchAllForecasts() {
         handler.removeCallbacks(fetchRunnable);
+    
         if (Logger.ISLOGABLE) Logger.d(TAG, "fetchAllForecasts()");
         HashMap<String, String> localizations = mRepository.getLocalizations();
-        List<Weather> updatedList = new ArrayList<>();
-
+    
+        HashMap<String, Weather> uniqueWeathers = new HashMap<>();
+        int[] responseCount = {0};
+    
         for (String latlon : localizations.values()) {
             mRepository.retrieveForecast(latlon, new WeatherCallback() {
                 @Override
                 public void onSuccess(Weather result) {
-                    updatedList.add(result);
-                    if (updatedList.size() == localizations.size()) {
-                        _weatherList.setValue(updatedList);
+                    uniqueWeathers.put(result.getName(), result);
+                    responseCount[0]++;
+    
+                    if (responseCount[0] == localizations.size()) {
+                        _weatherList.setValue(new ArrayList<>(uniqueWeathers.values()));
                         handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
                     }
                 }
-
+    
                 @Override
                 public void onFailure(String error) {
-                    handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
+                    responseCount[0]++;
+    
+                    if (responseCount[0] == localizations.size()) {
+                        _weatherList.setValue(new ArrayList<>(uniqueWeathers.values()));
+                        handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
+                    }
                 }
             });
         }
