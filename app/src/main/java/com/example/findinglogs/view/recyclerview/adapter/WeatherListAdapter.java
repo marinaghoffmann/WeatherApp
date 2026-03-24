@@ -1,10 +1,7 @@
 package com.example.findinglogs.view.recyclerview.adapter;
 
 
-
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findinglogs.R;
 import com.example.findinglogs.model.model.Weather;
-import com.example.findinglogs.model.util.Logger;
 import com.example.findinglogs.model.util.Utils;
 import com.google.android.material.card.MaterialCardView;
 
@@ -65,7 +61,32 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         }
 
         public void holdWeather(Weather weather, Context context) {
-            switch (weather.getWeather().get(0).getIcon()){
+            if (weather.getWeather() != null && !weather.getWeather().isEmpty()) {
+                String iconCode = weather.getWeather().get(0).getIcon();
+                setCardColor(iconCode, context);
+
+                String iconUrl = "https://openweathermap.org/img/wn/"
+                        + iconCode + "@2x.png";
+                Glide.with(context)
+                        .load(iconUrl)
+                        .into(imageView);
+            }
+
+            name.setText(weather.getName());
+            temp_current.setText(context.getString(R.string.temp_current_label,
+                    Utils.getCelsiusTemperatureFromKevin(weather.getMain().getTemp())));
+            temp_max.setText(context.getString(R.string.temp_max_label,
+                    Utils.getCelsiusTemperatureFromKevin(weather.getMain().getTemp_max())));
+            temp_min.setText(context.getString(R.string.temp_min_label,
+                    Utils.getCelsiusTemperatureFromKevin(weather.getMain().getTemp_min())));
+            pressure.setText(context.getString(R.string.pressure_label,
+                    String.valueOf(weather.getMain().getPressure())));
+            humidity.setText(context.getString(R.string.humidity_label,
+                    String.valueOf(weather.getMain().getHumidity())));
+        }
+
+        private void setCardColor(String iconCode, Context context) {
+            switch (iconCode) {
                 case "02d":
                     cardView.setCardBackgroundColor(context.getColor(R.color.weather_few_clouds));
                     break;
@@ -93,29 +114,6 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
                 default:
                     cardView.setCardBackgroundColor(context.getColor(R.color.weather_few_clouds));
             }
-
-            name.setText(weather.getName());
-            String temp_current_value = "Temp. atual: " +
-                    Utils.getCelsiusTemperatureFromKevin(weather.getMain().getTemp());
-            temp_current.setText(temp_current_value);
-            String temp_max_value = "Temp. máx: " +
-                    Utils.getCelsiusTemperatureFromKevin(weather.getMain().getTemp_max());
-            temp_max.setText(temp_max_value);
-            String temp_min_value = "Temp. mín: " +
-                    Utils.getCelsiusTemperatureFromKevin(weather.getMain().getTemp_min());
-            temp_min.setText(temp_min_value);
-            String pressure_value = "Pressão: " + weather.getMain().getPressure()  + "hPa";
-            pressure.setText(pressure_value);
-            String humidity_value = "Umidade: " + weather.getMain().getHumidity() + "%";
-            humidity.setText(humidity_value);
-            String iconCode = weather.getWeather().get(0).getIcon();
-
-            String iconUrl = "https://openweathermap.org/img/wn/"
-                    + iconCode + "@2x.png";
-
-            Glide.with(context)
-                    .load(iconUrl)
-                    .into(imageView);
         }
     }
 

@@ -3,6 +3,8 @@ package com.example.findinglogs.model.model;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class Weather {
     private String name;
     private List<WeatherDetail> weather = new ArrayList<>();
     private Wind wind;
+    private Coord coord;
 
     public Weather() {
     }
@@ -47,6 +50,14 @@ public class Weather {
         this.wind = wind;
     }
 
+    public Coord getCoord() {
+        return coord;
+    }
+
+    public void setCoord(Coord coord) {
+        this.coord = coord;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -56,5 +67,13 @@ public class Weather {
                 ", weather=" + weather +
                 ", wind=" + wind +
                 '}';
+    }
+
+    public static class Coord {
+        private float lon;
+        private float lat;
+
+        public float getLon() { return lon; }
+        public float getLat() { return lat; }
     }
 }

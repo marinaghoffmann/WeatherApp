@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.example.findinglogs.model.repo.local.SharedPrefManager;
 import com.example.findinglogs.model.repo.remote.WeatherManager;
+import com.example.findinglogs.model.repo.remote.api.ForecastCallback;
 import com.example.findinglogs.model.repo.remote.api.WeatherCallback;
 import com.example.findinglogs.model.util.Logger;
 
@@ -27,6 +28,16 @@ public class Repository {
         weatherManager.retrieveForecast(latLon, callback);
     }
 
+    public void searchCity(String cityName, WeatherCallback callback) {
+        if (Logger.ISLOGABLE) Logger.d(TAG, "searchCity: " + cityName);
+        weatherManager.searchCity(cityName, callback);
+    }
+
+    public void retrieveFiveDayForecast(String lat, String lon, ForecastCallback callback) {
+        if (Logger.ISLOGABLE) Logger.d(TAG, "retrieveFiveDayForecast");
+        weatherManager.retrieveFiveDayForecast(lat, lon, callback);
+    }
+
     public void saveString(String key, String value) {
         if (Logger.ISLOGABLE) Logger.d(TAG, "saveString()");
         sharedPrefManagerManager.writeString(key, value);
@@ -42,8 +53,6 @@ public class Repository {
         localizations.put("1", "-8.05428,-34.8813");
         localizations.put("2", "-9.39416,-40.5096");
         localizations.put("3", "-8.284547,-35.969863");
-        localizations.put("4", "-8.284547,-35.969863");
-        localizations.put("5", "-9.39416,-40.5096");
         return localizations;
     }
 }

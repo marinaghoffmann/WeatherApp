@@ -11,6 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Header card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +31,8 @@
                     android:id="@+id/detail_img_icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    android:importantForAccessibility="no" />
 
                 <TextView
                     android:id="@+id/detail_tv_name"
@@ -52,6 +54,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Temperature card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +71,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🌡️  Temperatura"
+                    android:text="@string/temperature_section"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp" />
@@ -86,7 +89,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sensação térmica"
+                    android:text="@string/feels_like_label"
                     android:textSize="12sp"
                     android:alpha="0.6"
                     android:layout_gravity="center_horizontal" />
@@ -114,7 +117,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="↑ Máxima"
+                            android:text="@string/temp_max_section"
                             android:textSize="12sp"
                             android:alpha="0.6" />
 
@@ -136,7 +139,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="↓ Mínima"
+                            android:text="@string/temp_min_section"
                             android:textSize="12sp"
                             android:alpha="0.6" />
 
@@ -151,6 +154,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Atmosphere card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,7 +171,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🌫️  Atmosfera"
+                    android:text="@string/atmosphere_section"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp" />
@@ -187,7 +191,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pressão"
+                            android:text="@string/pressure_section"
                             android:textSize="12sp"
                             android:alpha="0.6" />
 
@@ -209,7 +213,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Umidade"
+                            android:text="@string/humidity_section"
                             android:textSize="12sp"
                             android:alpha="0.6" />
 
@@ -224,10 +228,11 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Wind card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="12dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
 
@@ -240,7 +245,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="💨  Vento"
+                    android:text="@string/wind_section"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp" />
@@ -260,7 +265,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Velocidade"
+                            android:text="@string/wind_speed_label"
                             android:textSize="12sp"
                             android:alpha="0.6" />
 
@@ -282,7 +287,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Direção"
+                            android:text="@string/wind_direction_label"
                             android:textSize="12sp"
                             android:alpha="0.6" />
 
@@ -294,6 +299,50 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 5-day Forecast card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/forecast_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:visibility="gone"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forecast_section"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <ProgressBar
+                    android:id="@+id/forecast_progress"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/forecast_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

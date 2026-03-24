@@ -64,4 +64,9 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.gson)
     implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
+    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }

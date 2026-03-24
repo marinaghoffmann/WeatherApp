@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/guilhermemourao/Desktop/Pessoal/marina/WeatherApp/app/src/main/java -type f -name *.java)",
+      "Bash(./gradlew tasks:*)",
+      "Bash(./gradlew assembleDebug --stacktrace)",
+      "Bash(./gradlew assembleDebug 2>&1)",
+      "Bash(grep -E \"\\\\.\\(xml|properties\\)$\")",
+      "Bash(pip3 install:*)"
+    ]
+  }
+}
