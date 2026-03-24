@@ -4,7 +4,7 @@ A weather application that retrieves and displays weather information using the 
 
 Cities are fetched using predefined latitude and longitude coordinates and displayed in alphabetical order with detailed weather data.
 
-[![Weather App Demo](https://img.youtube.com/vi/PzGl3if-Gl4/0.jpg)](https://youtube.com/shorts/PzGl3if-Gl4)
+[![Weather App Demo](https://img.youtube.com/vi/MNKRpudc2Cc/0.jpg)](https://youtube.com/shorts/MNKRpudc2Cc)
 
 ---
 
@@ -14,8 +14,10 @@ Cities are fetched using predefined latitude and longitude coordinates and displ
 - 💧 Humidity
 - 🌬️ Pressure
 - 🎨 Weather icons loaded from OpenWeather
-- 🔄 Manual data refresh button
+- 🔄 Pull-to-refresh to update weather data
 - 🏙️ Cities listed in alphabetical order (duplicates removed)
+- 🔍 Search cities by name
+- 📅 5-day weather forecast
 - 📋 City detail screen with expanded info:
   - Feels like temperature
   - Wind speed and direction
