@@ -17,11 +17,11 @@ Cities are fetched using predefined latitude and longitude coordinates and displ
 - 🔄 Pull-to-refresh to update weather data
 - 🏙️ Cities listed in alphabetical order (duplicates removed)
 - 🔍 Search cities by name
-- 📅 5-day weather forecast
 - 📋 City detail screen with expanded info:
   - Feels like temperature
   - Wind speed and direction
   - Weather description
+  - 5-day weather forecast
 
 ---
 
