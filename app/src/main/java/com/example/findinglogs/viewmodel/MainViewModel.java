@@ -1,6 +1,5 @@
 package com.example.findinglogs.viewmodel;
 
-
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -16,6 +15,8 @@ import com.example.findinglogs.model.model.Weather;
 import com.example.findinglogs.model.repo.Repository;
 import com.example.findinglogs.model.repo.remote.api.WeatherCallback;
 import com.example.findinglogs.model.util.Logger;
+import com.example.findinglogs.model.util.Utils;
+import com.example.findinglogs.provider.WeatherProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,25 +48,11 @@ public class MainViewModel extends AndroidViewModel {
         startFetching();
     }
 
-    public LiveData<List<Weather>> getWeatherList() {
-        return weatherList;
-    }
-
-    public LiveData<UiState> getUiState() {
-        return _uiState;
-    }
-
-    public LiveData<String> getErrorMessage() {
-        return _errorMessage;
-    }
-
-    public LiveData<Boolean> getIsRefreshing() {
-        return _isRefreshing;
-    }
-
-    public LiveData<String> getSearchResult() {
-        return _searchResult;
-    }
+    public LiveData<List<Weather>> getWeatherList() { return weatherList; }
+    public LiveData<UiState> getUiState() { return _uiState; }
+    public LiveData<String> getErrorMessage() { return _errorMessage; }
+    public LiveData<Boolean> getIsRefreshing() { return _isRefreshing; }
+    public LiveData<String> getSearchResult() { return _searchResult; }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getApplication()
@@ -152,6 +139,18 @@ public class MainViewModel extends AndroidViewModel {
                 _uiState.setValue(UiState.SUCCESS);
             }
 
+            // Alimenta o ContentProvider com os dados mais recentes
+            List<String[]> dadosProvider = new ArrayList<>();
+            for (Weather w : sortedList) {
+                String cidade = w.getName();
+                String temp = Utils.getCelsiusTemperatureFromKevin(w.getMain().getTemp());
+                String descricao = (w.getWeather() != null && !w.getWeather().isEmpty())
+                        ? w.getWeather().get(0).getDescription()
+                        : "sem descrição";
+                dadosProvider.add(new String[]{cidade, temp, descricao});
+            }
+            WeatherProvider.atualizarDados(dadosProvider);
+
             handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
         }
     }
@@ -199,9 +198,7 @@ public class MainViewModel extends AndroidViewModel {
         fetchAllForecasts();
     }
 
-    public Repository getRepository() {
-        return mRepository;
-    }
+    public Repository getRepository() { return mRepository; }
 
     @Override
     protected void onCleared() {

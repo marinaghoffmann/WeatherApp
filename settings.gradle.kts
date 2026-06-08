@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "FindingLogs"
 include(":app")
+
+include(":WeatherReader")
