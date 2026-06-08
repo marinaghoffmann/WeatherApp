@@ -1,7 +1,13 @@
 package com.example.findinglogs.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -27,6 +33,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG_LIFECYCLE = "Lifecycle_Main";
+    private static final String TAG_BROADCAST = "Broadcast_Main";
+
     private WeatherListAdapter adapter;
     private final List<Weather> weathers = new ArrayList<>();
     private MainViewModel mainViewModel;
@@ -36,11 +45,37 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout errorView;
     private LinearLayout emptyView;
     private TextView tvErrorMessage;
+    private TextView tvOfflineBanner;
+    private final BroadcastReceiver connectivityReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean conectado = isNetworkAvailable();
+            if (conectado) {
+                Log.d(TAG_BROADCAST, "onReceive: internet voltou, atualizando dados...");
+                Toast.makeText(context, "Internet voltou! Atualizando...", Toast.LENGTH_SHORT).show();
+                tvOfflineBanner.setVisibility(View.GONE);
+                mainViewModel.fetchWeather();
+            } else {
+                Log.d(TAG_BROADCAST, "onReceive: internet caiu, mostrando aviso");
+                Toast.makeText(context, "Sem internet!", Toast.LENGTH_SHORT).show();
+                tvOfflineBanner.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG_LIFECYCLE, "onCreate: Activity criada");
+        Toast.makeText(this, "Main → onCreate", Toast.LENGTH_SHORT).show();
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_weather);
         FloatingActionButton addCityButton = findViewById(R.id.addCityButton);
@@ -49,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         errorView = findViewById(R.id.error_view);
         emptyView = findViewById(R.id.empty_view);
         tvErrorMessage = findViewById(R.id.tv_error_message);
+        tvOfflineBanner = findViewById(R.id.tv_offline_banner);
         MaterialButton btnRetry = findViewById(R.id.btn_retry);
 
         adapter = new WeatherListAdapter(this, weathers, weather -> {
@@ -112,10 +148,57 @@ public class MainActivity extends AppCompatActivity {
         });
 
         swipeRefresh.setOnRefreshListener(() -> mainViewModel.fetchWeather());
-
         btnRetry.setOnClickListener(v -> mainViewModel.fetchWeather());
-
         addCityButton.setOnClickListener(v -> showSearchDialog());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG_LIFECYCLE, "onStart: Activity visível");
+        Toast.makeText(this, "Main → onStart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG_LIFECYCLE, "onResume: Activity em foco (interativa)");
+        Toast.makeText(this, "Main → onResume", Toast.LENGTH_SHORT).show();
+
+        IntentFilter filtro = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityReceiver, filtro);
+        Log.d(TAG_BROADCAST, "onResume: receiver de conectividade registrado");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG_LIFECYCLE, "onPause: Activity perdeu o foco");
+        Toast.makeText(this, "Main → onPause", Toast.LENGTH_SHORT).show();
+
+        unregisterReceiver(connectivityReceiver);
+        Log.d(TAG_BROADCAST, "onPause: receiver de conectividade desregistrado");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG_LIFECYCLE, "onStop: Activity não está mais visível");
+        Toast.makeText(this, "Main → onStop", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG_LIFECYCLE, "onRestart: Activity voltando do onStop");
+        Toast.makeText(this, "Main → onRestart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG_LIFECYCLE, "onDestroy: Activity destruída");
+        Toast.makeText(this, "Main → onDestroy", Toast.LENGTH_SHORT).show();
     }
 
     private void showSearchDialog() {

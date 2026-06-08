@@ -47,6 +47,20 @@
 
         </androidx.cardview.widget.CardView>
 
+        <!-- Banner de sem internet (Broadcast dinâmico) -->
+        <TextView
+            android:id="@+id/tv_offline_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CC000000"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="⚠ Sem conexão com a internet"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
         <!-- Loading state -->
         <LinearLayout
             android:id="@+id/loading_view"

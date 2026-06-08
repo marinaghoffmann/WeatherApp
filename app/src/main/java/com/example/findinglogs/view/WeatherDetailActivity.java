@@ -1,12 +1,14 @@
 package com.example.findinglogs.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +28,8 @@ import java.util.Locale;
 
 public class WeatherDetailActivity extends AppCompatActivity {
 
+    private static final String TAG = "Lifecycle_Detail";
+
     public static final String EXTRA_WEATHER_NAME = "extra_weather_name";
     public static final String EXTRA_WEATHER_TEMP = "extra_weather_temp";
     public static final String EXTRA_WEATHER_TEMP_MAX = "extra_weather_temp_max";
@@ -44,6 +48,8 @@ public class WeatherDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_detail);
+        Log.d(TAG, "onCreate: Activity criada");
+        Toast.makeText(this, "Detail → onCreate", Toast.LENGTH_SHORT).show();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -97,6 +103,48 @@ public class WeatherDetailActivity extends AppCompatActivity {
         if (lat != 0f || lon != 0f) {
             loadForecast(String.valueOf(lat), String.valueOf(lon));
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: Activity visível");
+        Toast.makeText(this, "Detail → onStart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: Activity em foco (interativa)");
+        Toast.makeText(this, "Detail → onResume", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: Activity perdeu o foco");
+        Toast.makeText(this, "Detail → onPause", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: Activity não está mais visível");
+        Toast.makeText(this, "Detail → onStop", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: Activity voltando do onStop");
+        Toast.makeText(this, "Detail → onRestart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: Activity destruída");
+        Toast.makeText(this, "Detail → onDestroy", Toast.LENGTH_SHORT).show();
     }
 
     private void loadForecast(String lat, String lon) {
