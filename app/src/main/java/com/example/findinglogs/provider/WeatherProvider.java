@@ -60,7 +60,6 @@ public class WeatherProvider extends ContentProvider {
         Log.d(TAG, "query: app externo consultou o provider, retornando "
                 + dadosClima.size() + " cidades");
 
-        // MatrixCursor é uma tabela em memória — não precisa de banco de dados
         MatrixCursor cursor = new MatrixCursor(
                 new String[]{COLUMN_CITY, COLUMN_TEMP, COLUMN_DESCRIPTION}
         );
